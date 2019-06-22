@@ -1,4 +1,4 @@
-
+import base64
 from datetime import datetime
 from hashlib import sha1
 import hmac
@@ -105,13 +105,13 @@ class AliDNSClient():
         params.update(data)
 
         str_to_sign = ''
-        for key in sorted(params.iterkeys()):
+        for key in sorted(params.keys()):
             str_to_sign += '&' + self._urlencode(key) + '=' + self._urlencode(str(params[key]))
         # remove the first &
         str_to_sign = 'GET&%2F&' + self._urlencode(str_to_sign[1:])
-
-        h = hmac.new(self._access_key_secret + '&', str_to_sign, sha1)
-        params['Signature'] = h.digest().encode("base64").rstrip('\n')
+        
+        h = hmac.new((self._access_key_secret + '&').encode(), str_to_sign.encode(), sha1)
+        params['Signature'] = base64.b64encode(h.digest())
 
         r = requests.get(API_ENDPOINT, params=params)
         r = r.json()
