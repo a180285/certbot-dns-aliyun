@@ -1,3 +1,5 @@
+# python3.6 is tested
+
 # Aliyun DNS Authenticator plugin for Certbot
 
 A certbot dns plugin to obtain certificates using aliyun.
@@ -15,14 +17,6 @@ And ensure your RAM account has `AliyunDNSFullAccess` permission.
 git clone https://github.com/tengattack/certbot-dns-aliyun
 cd certbot-dns-aliyun
 sudo python setup.py install
-```
-
-If you are using `certbot-auto`, you should run `virtualenv` first:
-
-```bash
-# CentOS 7
-virtualenv --no-site-packages --python "python2.7" "/opt/eff.org/certbot/venv"
-/opt/eff.org/certbot/venv/bin/python2.7 setup.py install
 ```
 
 ## Credentials File
