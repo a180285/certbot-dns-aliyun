@@ -14,7 +14,7 @@ And ensure your RAM account has `AliyunDNSFullAccess` permission.
 ## Install
 
 ```bash
-git clone https://github.com/tengattack/certbot-dns-aliyun
+git clone 
 cd certbot-dns-aliyun
 sudo python setup.py install
 ```
