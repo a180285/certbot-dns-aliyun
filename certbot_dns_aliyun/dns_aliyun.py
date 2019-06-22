@@ -2,7 +2,7 @@
 import logging
 
 import zope.interface
-import alidns
+from certbot_dns_aliyun import alidns
 
 from certbot import errors
 from certbot import interfaces
