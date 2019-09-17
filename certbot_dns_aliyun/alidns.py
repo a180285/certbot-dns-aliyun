@@ -1,6 +1,7 @@
 import base64
 from datetime import datetime
 from hashlib import sha1
+import logging
 import hmac
 import uuid
 try:
@@ -13,6 +14,11 @@ except:
 import requests
 from certbot import errors
 from certbot.plugins import dns_common
+import sys
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 API_ENDPOINT = 'https://alidns.aliyuncs.com/'
 
@@ -67,8 +73,13 @@ class AliDNSClient():
                                  .format(rr, 'record not found'))
 
     def add_txt_record(self, domain, record_name, value):
+        logger.info("add_txt_record, domain: {}, record_name: {}, value: {}".format(domain, record_name, value))
         domain = self._find_domain_id(domain)
+        logger.info("_find_domain_id, get: {}".format(domain))
+
         rr = record_name[:record_name.rindex('.' + domain)]
+        logger.info("rr: {}".format(rr))
+
         self._request('AddDomainRecord', {
             'DomainName': domain,
             'RR': rr,
@@ -114,7 +125,9 @@ class AliDNSClient():
         params['Signature'] = base64.b64encode(h.digest())
 
         r = requests.get(API_ENDPOINT, params=params)
+        logger.info("response: {}".format(r))
         r = r.json()
+        logger.info("response json: {}".format(r))
 
         if 'Code' in r:
             e = AliError(r['Message'], r['Code'], r['RequestId'])
